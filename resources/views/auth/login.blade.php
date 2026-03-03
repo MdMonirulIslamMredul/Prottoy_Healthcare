@@ -123,7 +123,7 @@
     <div class="login-container">
         <div class="login-header">
             <h1>Prottoy Healthcare System</h1>
-            <p>Please login to continue</p>
+            <p>Please login to continue...</p>
         </div>
 
         @if (session('success'))
