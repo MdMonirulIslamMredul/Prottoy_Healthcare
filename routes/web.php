@@ -267,6 +267,10 @@ Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function 
     Route::get('/website/contact-info', [WebsiteSettingsController::class, 'contactInfo'])->name('superadmin.website.contact-info');
     Route::put('/website/contact-info', [WebsiteSettingsController::class, 'updateContactInfo'])->name('superadmin.website.contact-info.update');
 
+    // Website Branding Settings
+    Route::get('/website/settings', [WebsiteSettingsController::class, 'webSettings'])->name('superadmin.website.settings');
+    Route::put('/website/settings', [WebsiteSettingsController::class, 'updateWebSettings'])->name('superadmin.website.settings.update');
+
     // Package Management
     Route::resource('packages', PackageController::class)->except(['show'])->names([
         'index' => 'packages.index',

@@ -113,6 +113,11 @@
                     <i class="bi bi-megaphone"></i>
                     <span>Notices</span>
                 </a>
+                <a href="{{ route('superadmin.website.settings') }}"
+                    class="submenu-item {{ request()->routeIs('superadmin.website.settings') ? 'active' : '' }}">
+                    <i class="bi bi-image"></i>
+                    <span>Logo & Favicon</span>
+                </a>
                 <div class="submenu-section">About Page</div>
                 <a href="{{ route('superadmin.website.about.index') }}"
                     class="submenu-item {{ request()->routeIs('superadmin.website.about.*') ? 'active' : '' }}">

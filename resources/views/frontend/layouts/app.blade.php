@@ -202,11 +202,19 @@
 
 <body>
     <!-- Navbar -->
+    @php
+        $webSettings = \App\Models\WebSetting::first();
+    @endphp
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('frontend.home') }}">
-
-                Prottoy Healthcare LTD
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('frontend.home') }}">
+                @if($webSettings && $webSettings->header_logo)
+                    <img src="{{ Storage::url($webSettings->header_logo) }}"
+                         alt="Prottoy Healthcare Logo"
+                         style="max-height:44px; max-width:220px; object-fit:contain;">
+                @else
+                    Prottoy Healthcare LTD
+                @endif
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

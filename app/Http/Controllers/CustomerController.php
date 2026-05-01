@@ -152,6 +152,9 @@ class CustomerController extends Controller
     {
         $customer = User::where('role', 'customer')
             ->with(['division', 'district', 'upzila', 'union', 'pho'])
+            ->with(['packagePurchases' => function ($query) {
+                $query->with(['package', 'pho'])->orderByDesc('purchase_date');
+            }])
             ->withCount('packagePurchases')
             ->withSum('packagePurchases', 'total_price')
             ->withSum('packagePurchases', 'paid_amount')

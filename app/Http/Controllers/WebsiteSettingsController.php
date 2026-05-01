@@ -12,6 +12,7 @@ use App\Models\OrganizationalRole;
 use App\Models\NewsEvent;
 use App\Models\Notice;
 use App\Models\ContactInfo;
+use App\Models\WebSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -722,5 +723,49 @@ class WebsiteSettingsController extends Controller
 
         return redirect()->route('superadmin.website.contact-info')
             ->with('success', $message);
+    }
+
+    // Website Branding Settings
+    public function webSettings()
+    {
+        $settings = WebSetting::first();
+        return view('backend.superadmin.website.web-settings.edit', compact('settings'));
+    }
+
+    public function updateWebSettings(Request $request)
+    {
+        $validated = $request->validate([
+            'header_logo' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'footer_logo' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'favicon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp,ico|max:1024',
+        ]);
+
+        $settings = WebSetting::firstOrCreate([]);
+
+        if ($request->hasFile('header_logo')) {
+            if ($settings->header_logo) {
+                Storage::disk('public')->delete($settings->header_logo);
+            }
+            $settings->header_logo = $request->file('header_logo')->store('web-settings', 'public');
+        }
+
+        if ($request->hasFile('footer_logo')) {
+            if ($settings->footer_logo) {
+                Storage::disk('public')->delete($settings->footer_logo);
+            }
+            $settings->footer_logo = $request->file('footer_logo')->store('web-settings', 'public');
+        }
+
+        if ($request->hasFile('favicon')) {
+            if ($settings->favicon) {
+                Storage::disk('public')->delete($settings->favicon);
+            }
+            $settings->favicon = $request->file('favicon')->store('web-settings', 'public');
+        }
+
+        $settings->save();
+
+        return redirect()->route('superadmin.website.settings')
+            ->with('success', 'Website assets updated successfully.');
     }
 }
